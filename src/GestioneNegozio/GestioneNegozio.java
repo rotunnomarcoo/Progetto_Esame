@@ -199,9 +199,9 @@ public class GestioneNegozio {
             fileWriter.write("\n\tNome Responsabile Reparto : " + listaReparti.get(i).getResponsabileReparto());
             for (int j = 0; j < listaReparti.get(i).getListaImpiegati().size(); j++) {
                 fileWriter.write("\n\t\tImpiegati che lavorano in " + listaReparti.get(i).getDenominazione());
-                fileWriter.write("\n\t\tCodice Fiscale Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCF());
-                fileWriter.write("\n\t\tNome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getNome());
-                fileWriter.write("\n\t\tCognome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCognome());
+                fileWriter.write("\n\t\t\tCodice Fiscale Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCF());
+                fileWriter.write("\n\t\t\tNome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getNome());
+                fileWriter.write("\n\t\t\tCognome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCognome());
             }
         }
     }

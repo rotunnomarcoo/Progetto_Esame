@@ -13,7 +13,7 @@ public class Main {
         ConsoleInputManager inln = new ConsoleInputManager();
         //Creazione txt
         try {
-            File myObj = new File("filename.txt");
+            File myObj = new File("negozio.txt");
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
             } else {
@@ -45,12 +45,13 @@ public class Main {
             loadAnother= inln.readLine();
         }
 
-
         managerNegozio.printOnFile(fileWriter);
         managerNegozio.printUserOutput(outln,inln);
 /*        Prodotto prodottoLoader = new Prodotto("21", "gpu", "ASUS", 1, 300f);
         managerNegozio.caricaProdotto_userInput(outln,inln);
         managerNegozio.caricaProdottoInList(prodottoLoader);*/
+
+        fileWriter.write("\n\n-----------------------------------------------------------");
         fileWriter.close();
     }
 }
