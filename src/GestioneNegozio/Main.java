@@ -3,42 +3,54 @@ package GestioneNegozio;
 import prog.io.ConsoleOutputManager;
 import prog.io.ConsoleInputManager;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Output console
         ConsoleOutputManager outln = new ConsoleOutputManager();
         //Input console utente
         ConsoleInputManager inln = new ConsoleInputManager();
+        //Creazione txt
+        try {
+            File myObj = new File("filename.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        FileWriter fileWriter = new FileWriter("negozio.txt");
         //Creazione negozio
-        GestioneNegozio MSI = new GestioneNegozio("MSI");
-        //listaImpiegati per caricare nel negozio
-        List<Impiegato> listaImpiegati = new ArrayList<Impiegato>();
+        GestioneNegozio managerNegozio = new GestioneNegozio("Asus Rog Inc.");
+        Reparto repartoLoader = new Reparto("Schede Video", "Rossi Franco");
+        managerNegozio.caricaRepartoInList(repartoLoader);
+
+        String loadAnother="s";
+        while(loadAnother.equalsIgnoreCase("s")){
+            managerNegozio.caricaReparto_userInput(outln, inln);
+            outln.println("Vuoi caricare un altro reparto? \n S / N");
+            loadAnother= inln.readLine();
+        }
+        loadAnother="s";
         Impiegato impiegatoLoader = new Impiegato("RTNMRC01P12I452D", "Marco", "Rotunno");
-        listaImpiegati.add(impiegatoLoader);
-        for (int i = 0; i < 2; i++) {
-            outln.println("\nCodice Fiscale Impiegato : ");
-            impiegatoLoader.setCF(inln.readLine());
-            outln.println("Nome Impiegato : ");
-            impiegatoLoader.setNome(inln.readLine());
-            outln.println("Cognome Impiegato : ");
-            impiegatoLoader.setCognome(inln.readLine());
-            listaImpiegati.add(impiegatoLoader);
-            MSI.setListaImpiegati(listaImpiegati);
+        managerNegozio.caricaImpiegatoInList(impiegatoLoader);
+        while(loadAnother.equalsIgnoreCase("s")) {
+            //listaImpiegati per caricare nel negozio
+            managerNegozio.caricaImpiegato_userInput(outln, inln);
+            outln.println("Vuoi caricare un altro impiegato? \n S / N");
+            loadAnother= inln.readLine();
         }
-        for (int i = 0; i < MSI.getListaImpiegati().size(); i++) {
-            outln.println("\nCodice Fiscale Impiegato : " + MSI.getListaImpiegati().get(i).getCF());
-            outln.println("Nome Impiegato : " + MSI.getListaImpiegati().get(i).getNome());
-            outln.println("Cognome Impiegato : " + MSI.getListaImpiegati().get(i).getCognome());
-        }
-        List<Prodotto> listaProdotto= new ArrayList<Prodotto>();
-        Prodotto prodottoLoader = new Prodotto("21","gpu","ASUS",1,300f);
-        listaProdotto.add(prodottoLoader);
-        List<Reparto> listaReparto= new ArrayList<Reparto>();
 
 
+        managerNegozio.printOnFile(fileWriter);
+        managerNegozio.printUserOutput(outln,inln);
+/*        Prodotto prodottoLoader = new Prodotto("21", "gpu", "ASUS", 1, 300f);
+        managerNegozio.caricaProdotto_userInput(outln,inln);
+        managerNegozio.caricaProdottoInList(prodottoLoader);*/
+        fileWriter.close();
     }
 }

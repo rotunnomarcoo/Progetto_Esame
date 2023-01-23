@@ -12,8 +12,8 @@ public class Reparto {
     Reparto(String _denominazione, String _responsabileReparto) {
         Denominazione = _denominazione;
         ResponsabileReparto = _responsabileReparto;
-        listaImpiegati = new ArrayList<>();
-        listaProdotti = new ArrayList<>();
+        listaImpiegati = new ArrayList<Impiegato>();
+        listaProdotti = new ArrayList<Prodotto>();
     }
 
     Reparto(String _denominazione, String _responsabileReparto, List<Impiegato> _listaImpiegati, List<Prodotto> _listaProdotti) {
@@ -24,7 +24,8 @@ public class Reparto {
     }
 
     Reparto() {
-
+        listaImpiegati = new ArrayList<Impiegato>();
+        listaProdotti = new ArrayList<Prodotto>();
     }
 
     public String getDenominazione() {
