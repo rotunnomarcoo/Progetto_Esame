@@ -1,9 +1,13 @@
 package GestioneNegozio;
 
+import prog.io.ConsoleInputManager;
+import prog.io.ConsoleOutputManager;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reparto {
+public class Reparto implements Serializable {
     private String Denominazione;
     private String ResponsabileReparto;
     private List<Impiegato> listaImpiegati;
@@ -58,5 +62,36 @@ public class Reparto {
 
     public void setListaProdotti(List<Prodotto> _listaProdotti) {
         listaProdotti = _listaProdotti;
+    }
+    public void printListaImpiegati_userOutput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+        outln.println("----------------------------------------------------------");
+        for (int i = 0; i < listaImpiegati.size(); i++) {
+            outln.println("\n\tNome Impiegato: " + listaImpiegati.get(i).getNome());
+        }
+    }
+    public void printListaProdotti_userOutput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+        outln.println("----------------------------------------------------------");
+        for (int i = 0; i < listaProdotti.size(); i++) {
+            outln.println("\n\tCodice Prodotto: " + listaProdotti.get(i).getCodice());
+        }
+    }
+    public int trovaImpiegatoByNome(String impiegatoCercato) {
+        for (int i = 0; i < listaImpiegati.size(); i++) {
+            if (listaImpiegati.get(i).getNome().equalsIgnoreCase(impiegatoCercato)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public int trovaProdottoByCodice(String prodottoCercato) {
+        for (int i = 0; i < listaImpiegati.size(); i++) {
+            if (listaProdotti.get(i).getCodice().equalsIgnoreCase(prodottoCercato)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public void eliminaImpiegato(int index){
+        listaImpiegati.remove(index);
     }
 }

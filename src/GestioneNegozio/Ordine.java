@@ -1,44 +1,71 @@
 package GestioneNegozio;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Ordine {
+public class Ordine implements Serializable {
     private LocalDate dataOrdine;
     private int Qnt;
-    private int ID_Prodotto;
+    private Prodotto prodottoVenduto;
+    private boolean stringMatch;
 
-    //TODO : Riferimento prodotto ordinato
-    Ordine(LocalDate _dataOrdine, int _qnt, int _idProd) {
+    Ordine(LocalDate _dataOrdine, int _qnt, Prodotto prodVenduto) {
         dataOrdine = _dataOrdine;
         Qnt = _qnt;
-        ID_Prodotto = _idProd;
+        prodottoVenduto = prodVenduto;
+    }
+
+    Ordine(LocalDate _dataOrdine, int _qnt) {
+        dataOrdine = _dataOrdine;
+        Qnt = _qnt;
+        prodottoVenduto = new Prodotto();
     }
 
     Ordine() {
     }
 
-    public LocalDate getdataOrdine() {
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public LocalDate getDataOrdine() {
         return dataOrdine;
     }
 
-    public void setDataOrdine(LocalDate _dataOrdine) {
-        dataOrdine = _dataOrdine;
+    public void setDataOrdine(String _dataOrdine) {
+        stringMatch = _dataOrdine.matches("\\d{4}\\-\\d{2}\\-\\d{2}");
+        if (stringMatch)
+            dataOrdine = LocalDate.parse(_dataOrdine);
+
     }
 
     public int getQnt() {
         return Qnt;
     }
 
-    public void setQnt(int _qnt) {
-        Qnt = _qnt;
+    public void setQnt(String _qnt) {
+        if (isNumeric(_qnt))
+            Qnt = Integer.parseInt(_qnt);
     }
 
-    public int getID_Prodotto() {
-        return ID_Prodotto;
+    public void setProdottoVenduto(Prodotto prodVenduto) {
+        prodottoVenduto = prodVenduto;
     }
 
-    public void setID_Prodotto(int _idprodotto) {
-        ID_Prodotto = _idprodotto;
+    public void setEmptyProdottoVenduto() {
+        prodottoVenduto = new Prodotto();
     }
 
+    public Prodotto getProdottoVenduto() {
+        if (prodottoVenduto != null) {
+            return prodottoVenduto;
+        } else {
+            return new Prodotto();
+        }
+    }
 }

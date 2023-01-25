@@ -1,22 +1,34 @@
 package GestioneNegozio;
 
-public class Prodotto {
+import java.io.Serializable;
+
+public class Prodotto implements Serializable {
     private String Codice;
     private String Denominazione;
     private String Produttore;
-    private int ID_Prodotto;
     private Float Prezzo;
 
-     Prodotto(String _codice, String _denominazione, String _produttore, int _idProd, Float _prezzo) {
+    Prodotto(String _codice, String _denominazione, String _produttore, Float _prezzo) {
         Codice = _codice;
         Denominazione = _denominazione;
         Produttore = _produttore;
-        ID_Prodotto = _idProd;
         Prezzo = _prezzo;
     }
 
     Prodotto() {
+        Codice = "";
+        Denominazione = "";
+        Produttore = "";
+        Prezzo = 0f;
+    }
 
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public String getCodice() {
@@ -43,19 +55,12 @@ public class Prodotto {
         Produttore = _produttore;
     }
 
-    public int getID_Prodotto() {
-        return ID_Prodotto;
-    }
-
-    public void setID_Prodotto(int _ID_Prodotto) {
-        ID_Prodotto = _ID_Prodotto;
-    }
-
     public Float getPrezzo() {
         return Prezzo;
     }
 
-    public void setPrezzo(Float _prezzo) {
-        Prezzo = _prezzo;
+    public void setPrezzo(String _prezzo) {
+        if (isNumeric(_prezzo))
+            Prezzo = Float.parseFloat(_prezzo);
     }
 }

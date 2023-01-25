@@ -1,6 +1,8 @@
 package GestioneNegozio;
 
-public class Impiegato {
+import java.io.Serializable;
+
+public class Impiegato implements Serializable {
     private String Nome;
     private String CF;
     private String Cognome;
