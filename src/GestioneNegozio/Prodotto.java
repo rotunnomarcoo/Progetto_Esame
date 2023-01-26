@@ -8,13 +8,6 @@ public class Prodotto implements Serializable {
     private String Produttore;
     private Float Prezzo;
 
-    Prodotto(String _codice, String _denominazione, String _produttore, Float _prezzo) {
-        Codice = _codice;
-        Denominazione = _denominazione;
-        Produttore = _produttore;
-        Prezzo = _prezzo;
-    }
-
     Prodotto() {
         Codice = "";
         Denominazione = "";

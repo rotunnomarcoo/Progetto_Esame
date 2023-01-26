@@ -4,8 +4,6 @@ import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.util.Formatter;
 
 public class Main implements Serializable {
     //Creazione Negozio
@@ -18,33 +16,34 @@ public class Main implements Serializable {
     static int switchLoad = -1;
     static int switchModifica = -1;
     //nome file dati stampati
-    static String filename = "negozio.txt";
+    static String printFile = "negozio.txt";
     //nome file dati serializzati
-    static String serializedFilename = "dati.txt";
-    //provo a caricare da file
-    static Formatter formatData = new Formatter();
+    static String dataFile = "dati.txt";
 
     public static void main(String[] args) throws IOException {
-        formatData.format("YYYY-DD-MM");
         consoleOut.println("Benvenuto nel negozio " + managerNegozio.getNomeNegozio() + " !");
         //Runtime programma in interfaccia CMD
         while (runtime != 0) {
-            consoleOut.println("Cosa vuoi fare?" +
-                    "\n\t1 : Caricare" +
-                    "\n\t2 : Visualizzare" +
-                    "\n\t3 : Modificare" +
-                    "\n\t4 : Salvare file" +
-                    "\n\t5 : Caricare dati da file" +
-                    "\n\t0 : Chiudere programma");
+            consoleOut.println("""
+                    Cosa vuoi fare?
+                    \t1 : Caricare
+                    \t2 : Visualizzare
+                    \t3 : Modificare
+                    \t4 : Stampa in file
+                    \t5 : Caricare dati da file
+                    \t6 : Cancellare file stampato
+                    \t7 : Cancellare dati in file
+                    \t0 : Chiudere programma""");
             runtime = Integer.parseInt(consoleIn.readLine());
             //Controllo errori
-            while (!(0 <= runtime && runtime <= 5)) {
-                consoleOut.println("Errore - Cosa vuoi fare?" +
-                        "\n\t1 : Caricare" +
-                        "\n\t2 : Visualizzare" +
-                        "\n\t3 : Modificare" +
-                        "\n\t4 : Salvare file" +
-                        "\n\t5 : Caricare dati da file");
+            while (!(0 <= runtime && runtime <= 7)) {
+                consoleOut.println("""
+                        Errore - Cosa vuoi fare?
+                        \t1 : Caricare
+                        \t2 : Visualizzare
+                        \t3 : Modificare
+                        \t4 : Salvare file
+                        \t5 : Caricare dati da file""");
                 runtime = Integer.parseInt(consoleIn.readLine());
             }
             switchLoad = -1;
@@ -52,46 +51,38 @@ public class Main implements Serializable {
                 //Scelta Carica
                 case 1 -> {
                     while (switchLoad != 0) {
-                        consoleOut.println("Cosa vuoi caricare? :" +
-                                "\n\t1 : Reparto" +
-                                "\n\t2 : Impiegato" +
-                                "\n\t3 : Prodotto" +
-                                "\n\t4 : Vendita" +
-                                "\n\t5 : Ordine" +
-                                "\n0 : Torno indietro");
+                        consoleOut.println("""
+                                Cosa vuoi caricare? :
+                                \t1 : Reparto
+                                \t2 : Impiegato
+                                \t3 : Prodotto
+                                \t4 : Vendita
+                                \t5 : Ordine
+                                0 : Torno indietro""");
                         switchLoad = Integer.parseInt(consoleIn.readLine());
                         //Controllo errori
                         while (!(0 <= switchLoad && switchLoad <= 5)) {
-                            consoleOut.println("Errore - Cosa vuoi caricare? :" +
-                                    "\n\t1 : Reparto" +
-                                    "\n\t2 : Impiegato" +
-                                    "\n\t3 : Prodotto" +
-                                    "\n\t4 : Vendita" +
-                                    "\n\t5 : Ordine" +
-                                    "\n0 : Torno indietro");
+                            consoleOut.println("""
+                                    Errore - Cosa vuoi caricare? :
+                                    \t1 : Reparto
+                                    \t2 : Impiegato
+                                    \t3 : Prodotto
+                                    \t4 : Vendita
+                                    \t5 : Ordine
+                                    0 : Torno indietro""");
                             switchLoad = Integer.parseInt(consoleIn.readLine());
                         }
                         switch (switchLoad) {
                             //Carico Reparto
-                            case 1 -> {
-                                managerNegozio.loadReparto_UserInput(consoleOut, consoleIn);
-                            }
+                            case 1 -> managerNegozio.loadReparto_UserInput(consoleOut, consoleIn);
                             //Carico Impiegato
-                            case 2 -> {
-                                managerNegozio.loadImpiegato_UserInput(consoleOut, consoleIn);
-                            }
+                            case 2 -> managerNegozio.loadImpiegato_UserInput(consoleOut, consoleIn);
                             //Carico Prodotto
-                            case 3 -> {
-                                managerNegozio.loadProdotto_UserInput(consoleOut, consoleIn);
-                            }
+                            case 3 -> managerNegozio.loadProdotto_UserInput(consoleOut, consoleIn);
                             //Carico Vendita
-                            case 4 -> {
-                                managerNegozio.loadVendita_UserInput(consoleOut, consoleIn);
-                            }
+                            case 4 -> managerNegozio.loadVendita_UserInput(consoleOut, consoleIn);
                             //Carica Ordine
-                            case 5 -> {
-                                managerNegozio.loadOrdine_UserInput(consoleOut, consoleIn);
-                            }
+                            case 5 -> managerNegozio.loadOrdine_UserInput(consoleOut, consoleIn);
                             //Torno indietro
                             case 0 -> {
                             }
@@ -102,59 +93,47 @@ public class Main implements Serializable {
                 case 2 -> {
                     //loop visualizzazione
                     while (switchLoad != 0) {
-                        consoleOut.println("Cosa vuoi visualizzare? :" +
-                                "\n\t1 : Reparto" +
-                                "\n\t2 : Impiegato" +
-                                "\n\t3 : Prodotto" +
-                                "\n\t4 : Vendita" +
-                                "\n\t5 : Ordine" +
-                                "\n\t6 : Negozio" +
-                                "\n\t7 : Nome Negozio" +
-                                "\n0 : Torno indietro");
+                        consoleOut.println("""
+                                Cosa vuoi visualizzare? :
+                                \t1 : Reparto
+                                \t2 : Impiegato
+                                \t3 : Prodotto
+                                \t4 : Vendita
+                                \t5 : Ordine
+                                \t6 : Negozio
+                                \t7 : Nome Negozio
+                                0 : Torno indietro""");
                         switchLoad = Integer.parseInt(consoleIn.readLine());
                         //Controllo errori
                         while (!(0 <= switchLoad && switchLoad <= 7)) {
-                            consoleOut.println("Errore - Cosa vuoi visualizzare? :" +
-                                    "\n\t1 : Reparto" +
-                                    "\n\t2 : Impiegato" +
-                                    "\n\t3 : Prodotto" +
-                                    "\n\t4 : Vendita" +
-                                    "\n\t5 : Ordine" +
-                                    "\n\t6 : Negozio" +
-                                    "\n\t7 : Nome Negozio" +
-                                    "\n0 : Torno indietro");
+                            consoleOut.println("""
+                                    Errore - Cosa vuoi visualizzare? :
+                                    \t1 : Reparto
+                                    \t2 : Impiegato
+                                    \t3 : Prodotto
+                                    \t4 : Vendita
+                                    \t5 : Ordine
+                                    \t6 : Negozio
+                                    \t7 : Nome Negozio
+                                    0 : Torno indietro""");
                             switchLoad = Integer.parseInt(consoleIn.readLine());
                         }
                         //Scelta visualizzazione
                         switch (switchLoad) {
                             //Visualizzo Reparti
-                            case 1 -> {
-                                managerNegozio.printReparto_userOutput(consoleOut);
-                            }
+                            case 1 -> managerNegozio.printReparto_userOutput(consoleOut);
                             //Visualizzo Impiegati
-                            case 2 -> {
-                                managerNegozio.printImpiegato_userOutput(consoleOut);
-                            }
+                            case 2 -> managerNegozio.printImpiegato_userOutput(consoleOut);
                             //Visualizzo Prodotti
-                            case 3 -> {
-                                managerNegozio.printProdotto_userOutput(consoleOut);
-                            }
+                            case 3 -> managerNegozio.printProdotto_userOutput(consoleOut);
                             //Visualizzo Vendite
-                            case 4 -> {
-                                managerNegozio.printVendite_userOutput(consoleOut);
-                            }
+                            case 4 -> managerNegozio.printVendite_userOutput(consoleOut);
                             //Visualizzo Ordini
-                            case 5 -> {
-                                managerNegozio.printOrdini_userOutput(consoleOut);
-                            }
+                            case 5 -> managerNegozio.printOrdini_userOutput(consoleOut);
                             //Visualizzo negozio
-                            case 6 -> {
-                                managerNegozio.printUserOutput(consoleOut);
-                            }
+                            case 6 -> managerNegozio.printUserOutput(consoleOut);
                             //Visualizzo nome negozio
-                            case 7 -> {
-                                consoleOut.println(managerNegozio.getNomeNegozio());
-                            }
+                            case 7 -> consoleOut.println(managerNegozio.getNomeNegozio());
                             //Torno indietro
                             case 0 -> {
                             }
@@ -164,24 +143,26 @@ public class Main implements Serializable {
                 //Scelta modifica
                 case 3 -> {
                     while (switchLoad != 0) {
-                        consoleOut.println("Cosa vuoi modificare? :" +
-                                "\n\t1 : Reparto" +
-                                "\n\t2 : Impiegato" +
-                                "\n\t3 : Prodotto" +
-                                "\n\t4 : Vendita" +
-                                "\n\t5 : Ordine" +
-                                "\n\t6 : Nome Negozio" +
-                                "\n0 : Torno indietro");
+                        consoleOut.println("""
+                                Cosa vuoi modificare? :
+                                \t1 : Reparto
+                                \t2 : Impiegato
+                                \t3 : Prodotto
+                                \t4 : Vendita
+                                \t5 : Ordine
+                                \t6 : Nome Negozio
+                                0 : Torno indietro""");
                         switchLoad = Integer.parseInt(consoleIn.readLine());
                         //Controllo errori
                         while (!(0 <= switchLoad && switchLoad <= 6)) {
-                            consoleOut.println("Errore - Cosa vuoi modificare? :" +
-                                    "\n\t1 : Reparto" +
-                                    "\n\t2 : Impiegato" +
-                                    "\n\t3 : Prodotto" +
-                                    "\n\t4 : Vendita" +
-                                    "\n\t5 : Ordine" +
-                                    "\n0 : Torno indietro");
+                            consoleOut.println("""
+                                    Errore - Cosa vuoi modificare? :
+                                    \t1 : Reparto
+                                    \t2 : Impiegato
+                                    \t3 : Prodotto
+                                    \t4 : Vendita
+                                    \t5 : Ordine
+                                    0 : Torno indietro""");
                             switchLoad = Integer.parseInt(consoleIn.readLine());
                         }
                         //scelta modifica
@@ -197,25 +178,29 @@ public class Main implements Serializable {
                                     break;
                                 }
                                 managerNegozio.printRepartoByIndex_userOutput(consoleOut, index);
-                                consoleOut.println("Cosa vuoi modificare? :" +
-                                        "\n\t1 : Denominativo" +
-                                        "\n\t2 : Nome Responsabile" +
-                                        "\n\t3 : Impiegati" +
-                                        "\n\t4 : Prodotti" +
-                                        "\n\t5 : Elimina" +
-                                        "\n0 : Torno indietro");
+                                consoleOut.println("""
+                                        Cosa vuoi modificare? :
+                                        \t1 : Denominativo
+                                        \t2 : Nome Responsabile
+                                        \t3 : Impiegati
+                                        \t4 : Prodotti
+                                        \t5 : Elimina
+                                        \t6 : Aggiungi Impiegato
+                                        0 : Torno indietro""");
                                 switchModifica = Integer.parseInt(consoleIn.readLine());
                                 //Controllo errore
-                                while (!(0 <= switchModifica && switchModifica <= 5)) {
-                                    consoleOut.println("Errore - Cosa vuoi modificare? :" +
-                                            "\n\t1 : Denominativo" +
-                                            "\n\t2 : Nome Responsabile" +
-                                            "\n\t3 : Impiegati" +
-                                            "\n\t4 : Prodotti" +
-                                            "\n\t5 : Elimina" +
-                                            "\n0 : Torno indietro");
+                                while (!(0 <= switchModifica && switchModifica <= 6)) {
+                                    consoleOut.println("""
+                                            Errore - Cosa vuoi modificare? :
+                                            \t1 : Denominativo
+                                            \t2 : Nome Responsabile
+                                            \t3 : Impiegati
+                                            \t4 : Prodotti
+                                            \t5 : Elimina
+                                            0 : Torno indietro""");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
+                                //Switch controllo modifica impiegato
                                 switch (switchModifica) {
                                     //modifica denominativo
                                     case 1 -> {
@@ -232,30 +217,33 @@ public class Main implements Serializable {
                                     //modifica lista impiegati del reparto
                                     case 3 -> {
                                         consoleOut.println("Lista Impiegati del reparto " + managerNegozio.getListaReparti().get(index).getDenominazione());
-                                        managerNegozio.getListaReparti().get(index).printListaImpiegati_userOutput(consoleOut, consoleIn);
+                                        managerNegozio.getListaReparti().get(index).printListaImpiegati_userOutput(consoleOut);
                                         consoleOut.println("Inserisci nome impiegato da modificare");
                                         int indexImpiegato = managerNegozio.getListaReparti().get(index).trovaImpiegatoByNome(consoleIn.readLine());
                                         if (indexImpiegato == -1) {
                                             consoleOut.println("errore");
                                             break;
                                         }
-                                        consoleOut.println("Cosa vuoi modificare? :" +
-                                                "\n\t1 : Nome" +
-                                                "\n\t2 : Cognome" +
-                                                "\n\t3 : Codice Fiscale" +
-                                                "\n\t4 : Elimina" +
-                                                "\n0 : Torna indietro");
+                                        consoleOut.println("""
+                                                Cosa vuoi modificare? :
+                                                \t1 : Nome
+                                                \t2 : Cognome
+                                                \t3 : Codice Fiscale
+                                                \t4 : Elimina
+                                                0 : Torna indietro""");
                                         switchModifica = Integer.parseInt(consoleIn.readLine());
                                         //Controllo errori
                                         while (!(0 <= switchModifica && switchModifica <= 4)) {
-                                            consoleOut.println("Errore - Cosa vuoi modificare? :" +
-                                                    "\n\t1 : Nome" +
-                                                    "\n\t2 : Cognome" +
-                                                    "\n\t3 : Codice Fiscale" +
-                                                    "\n\t4 : Elimina" +
-                                                    "\n0 : Torna indietro");
+                                            consoleOut.println("""
+                                                    Errore - Cosa vuoi modificare? :
+                                                    \t1 : Nome
+                                                    \t2 : Cognome
+                                                    \t3 : Codice Fiscale
+                                                    \t4 : Elimina
+                                                    0 : Torna indietro""");
                                             switchModifica = Integer.parseInt(consoleIn.readLine());
                                         }
+                                        //Switch controllo modifica impiegato del reparto
                                         switch (switchModifica) {
                                             //Modifico il nome
                                             case 1 -> {
@@ -279,9 +267,8 @@ public class Main implements Serializable {
                                                     managerNegozio.getListaReparti().get(index).getListaImpiegati().get(indexImpiegato).setCF(codiceFiscaleModificato);
                                             }
                                             //Elimino impiegato dal reparto
-                                            case 4 -> {
-                                                managerNegozio.getListaReparti().get(index).getListaImpiegati().remove(indexImpiegato);
-                                            }
+                                            case 4 ->
+                                                    managerNegozio.getListaReparti().get(index).getListaImpiegati().remove(indexImpiegato);
                                             case 0 -> {
                                             }
                                         }
@@ -289,39 +276,45 @@ public class Main implements Serializable {
                                     //modifica lista prodotti del reparto
                                     case 4 -> {
                                         consoleOut.println("Lista Prodotti del reparto " + managerNegozio.getListaReparti().get(index).getDenominazione());
-                                        managerNegozio.getListaReparti().get(index).printListaProdotti_userOutput(consoleOut, consoleIn);
+                                        managerNegozio.getListaReparti().get(index).printListaProdotti_userOutput(consoleOut);
                                         consoleOut.println("Inserisci codice prodotto da modificare");
                                         int indexProdotto = managerNegozio.getListaReparti().get(index).trovaProdottoByCodice(consoleIn.readLine());
                                         if (indexProdotto == -1) {
                                             consoleOut.println("errore");
                                             break;
                                         }
-                                        consoleOut.println("Cosa vuoi modificare? :" +
-                                                "\n\t1 : Codice" +
-                                                "\n\t2 : Denominazione" +
-                                                "\n\t3 : Produttore" +
-                                                "\n\t4 : Prezzo" +
-                                                "\n0 : Torna indietro");
+                                        consoleOut.println("""
+                                                Cosa vuoi modificare? :
+                                                \t1 : Codice
+                                                \t2 : Denominazione
+                                                \t3 : Produttore
+                                                \t4 : Prezzo
+                                                0 : Torna indietro""");
                                         switchModifica = Integer.parseInt(consoleIn.readLine());
+                                        //Switch controllo modifica prodotti del reparto
                                         switch (switchModifica) {
+                                            //Modifico codice prodotto del reparto
                                             case 1 -> {
                                                 consoleOut.println("Stai modificando il codice : " + managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).getCodice());
                                                 String codiceModificato = consoleIn.readLine();
                                                 if (!codiceModificato.equalsIgnoreCase("null"))
                                                     managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).setCodice(codiceModificato);
                                             }
+                                            //modifico denominativo prodotto del reparto
                                             case 2 -> {
                                                 consoleOut.println("Stai modificando il denominativo : " + managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).getDenominazione());
                                                 String denominativoModificato = consoleIn.readLine();
                                                 if (!denominativoModificato.equalsIgnoreCase("null"))
                                                     managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).setDenominazione(denominativoModificato);
                                             }
+                                            //Modifico produttore prodotto del reparto
                                             case 3 -> {
                                                 consoleOut.println("Stai modificando il produttore : " + managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).getProduttore());
                                                 String produttoreModificato = consoleIn.readLine();
                                                 if (!produttoreModificato.equalsIgnoreCase("null"))
                                                     managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).setProduttore(produttoreModificato);
                                             }
+                                            //Modifico prezzo prodotto del reparto
                                             case 4 -> {
                                                 consoleOut.println("Stai modificando il prezzo : " + managerNegozio.getListaReparti().get(index).getListaProdotti().get(indexProdotto).getPrezzo());
                                                 String prezzoModificato = consoleIn.readLine();
@@ -332,8 +325,18 @@ public class Main implements Serializable {
                                             }
                                         }
                                     }
-                                    case 5 -> {
-                                        managerNegozio.eliminaReparto(index);
+                                    //Elimina Reparto
+                                    case 5 -> managerNegozio.eliminaReparto(index);
+                                    //Aggiungi impiegato al reparto
+                                    case 6 -> {
+                                        consoleOut.println("Chi vuoi aggiungere?");
+                                        managerNegozio.printListaImpiegati_userOutput(consoleOut);
+                                        int indexImpiegato = managerNegozio.trovaImpiegatoByNome(consoleIn.readLine());
+                                        if (indexImpiegato == -1) {
+                                            consoleOut.println("Errore");
+                                            break;
+                                        }
+                                        managerNegozio.getListaReparti().get(index).getListaImpiegati().add(managerNegozio.getListaImpiegati().get(indexImpiegato));
                                     }
                                     //Torno indietro
                                     case 0 -> {
@@ -349,24 +352,30 @@ public class Main implements Serializable {
                                 //Controllo errori
                                 if (indexImpiegato == -1) {
                                     consoleOut.println("errore");
+                                    break;
                                 }
-                                consoleOut.println("Cosa vuoi modificare? :" +
-                                        "\n\t1 : Nome" +
-                                        "\n\t2 : Cognome" +
-                                        "\n\t3 : Codice Fiscale" +
-                                        "\n\t4 : Elimina" +
-                                        "\n0 : Torna indietro");
+                                managerNegozio.printImpiegato_userOutput(consoleOut, indexImpiegato);
+                                consoleOut.println("""
+                                        Cosa vuoi modificare? :
+                                        \t1 : Nome
+                                        \t2 : Cognome
+                                        \t3 : Codice Fiscale
+                                        \t4 : Elimina
+                                        \t5 : Reparto Associato
+                                        0 : Torna indietro""");
                                 switchModifica = Integer.parseInt(consoleIn.readLine());
                                 //Controllo errore
                                 while (!(0 <= switchModifica && switchModifica <= 5)) {
-                                    consoleOut.println("Errore - Cosa vuoi modificare? :" +
-                                            "\n\t1 : Nome" +
-                                            "\n\t2 : Cognome" +
-                                            "\n\t3 : Codice Fiscale" +
-                                            "\n\t4 : Elimina" +
-                                            "\n0 : Torna indietro");
+                                    consoleOut.println("""
+                                            Errore - Cosa vuoi modificare? :
+                                            \t1 : Nome
+                                            \t2 : Cognome
+                                            \t3 : Codice Fiscale
+                                            \t4 : Elimina
+                                            0 : Torna indietro""");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
+                                //Switch controllo modifica impiegato
                                 switch (switchModifica) {
                                     //modifica nome
                                     case 1 -> {
@@ -390,9 +399,19 @@ public class Main implements Serializable {
                                             managerNegozio.getListaImpiegati().get(indexImpiegato).setCF(codiceFiscaleModificato);
                                     }
                                     //elimina impiegato
-                                    case 4 -> {
-                                        managerNegozio.eliminaImpiegato(indexImpiegato);
+                                    case 4 -> managerNegozio.eliminaImpiegato(indexImpiegato);
+                                    //Modifico reparto associato
+                                    case 5 -> {
+                                        consoleOut.println("In che reparto opera " + managerNegozio.getListaImpiegati().get(indexImpiegato).getNome());
+                                        managerNegozio.printListaReparti_userOutput(consoleOut);
+                                        int indexReparto = managerNegozio.trovaRepartoByNome(consoleIn.readLine());
+                                        if (indexReparto == -1) {
+                                            consoleOut.println("errore");
+                                            break;
+                                        }
+                                        managerNegozio.getListaReparti().get(indexReparto).getListaImpiegati().add(managerNegozio.getListaImpiegati().get(indexImpiegato));
                                     }
+                                    //Torno indietro
                                     case 0 -> {
                                     }
                                 }
@@ -426,6 +445,7 @@ public class Main implements Serializable {
                                             "\n0 : Torna indietro");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
+                                //Switch controllo modifica Prodotto
                                 switch (switchModifica) {
                                     //Modifica Codice Prodotto
                                     case 1 -> {
@@ -456,9 +476,8 @@ public class Main implements Serializable {
                                             managerNegozio.getListaProdotti().get(indexProdotto).setPrezzo(prezzoModificato);
                                     }
                                     //Elimina prodotto
-                                    case 5 -> {
-                                        managerNegozio.eliminaProdotto(indexProdotto);
-                                    }
+                                    case 5 -> managerNegozio.eliminaProdotto(indexProdotto);
+                                    //Torno indietro
                                     case 0 -> {
                                     }
                                 }
@@ -489,6 +508,7 @@ public class Main implements Serializable {
                                             "\n0 : Torna indietro");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
+                                //Switch controllo modifica vendita
                                 switch (switchModifica) {
                                     //Modifica data vendita
                                     case 1 -> {
@@ -505,9 +525,7 @@ public class Main implements Serializable {
                                             managerNegozio.getListaVendite().get(indexVendita).setQnt(qntModificato);
                                     }
                                     //Elimina vendita
-                                    case 3 -> {
-                                        managerNegozio.eliminaVendita(indexVendita);
-                                    }
+                                    case 3 -> managerNegozio.eliminaVendita(indexVendita);
                                     case 0 -> {
                                     }
                                 }
@@ -528,6 +546,7 @@ public class Main implements Serializable {
                                         "\n\t2 : Quantità" +
                                         "\n0 : Torna indietro");
                                 switchModifica = Integer.parseInt(consoleIn.readLine());
+                                //Switch controllo modifica ordine
                                 switch (switchModifica) {
                                     //Modifica data ordine
                                     case 1 -> {
@@ -544,14 +563,11 @@ public class Main implements Serializable {
                                             managerNegozio.getListaOrdini().get(indexOrdine).setQnt(qntModificato);
                                     }
                                     //Elimina ordine
-                                    case 3 -> {
-                                        managerNegozio.eliminaOrdine(indexOrdine);
-                                    }
+                                    case 3 -> managerNegozio.eliminaOrdine(indexOrdine);
                                     //Torno indietro
                                     case 0 -> {
                                     }
                                 }
-                                break;
                             }
                             case 6 -> {
                                 consoleOut.println("Modifica nome Negozio : " + managerNegozio.getNomeNegozio());
@@ -565,16 +581,16 @@ public class Main implements Serializable {
                 }
                 //Salvo nel file
                 case 4 -> {
-                    FileOutputStream fileOutput = new FileOutputStream(serializedFilename);
+                    FileOutputStream fileOutput = new FileOutputStream(dataFile);
                     ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
                     managerNegozio.saveOnFile(objectOutput);
-                    File file = new File(filename);
+                    File file = new File(printFile);
                     if (file.exists()) {
                         file.delete();
                     }
                     file.createNewFile();
 
-                    FileWriter fileWriter = new FileWriter(filename);
+                    FileWriter fileWriter = new FileWriter(printFile);
                     managerNegozio.printOnFile(fileWriter);
 
                     objectOutput.close();
@@ -583,11 +599,29 @@ public class Main implements Serializable {
                 }
                 //Leggo da file
                 case 5 -> {
-                    FileInputStream fileInput = new FileInputStream(serializedFilename);
-                    ObjectInputStream objectInput = new ObjectInputStream(fileInput);
-                    managerNegozio.loadFromFile(objectInput);
-                    fileInput.close();
-                    objectInput.close();
+                    try {
+                        FileInputStream fileInput = new FileInputStream(dataFile);
+                        ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+                        managerNegozio.loadFromFile(objectInput);
+                        fileInput.close();
+                        objectInput.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                //Cancello print file
+                case 6 -> {
+                    File file = new File(printFile);
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                }
+                //Cancello data file
+                case 7 -> {
+                    File file = new File(dataFile);
+                    if (file.exists()) {
+                        file.delete();
+                    }
                 }
                 //Chiudo Programma
                 case 0 -> {

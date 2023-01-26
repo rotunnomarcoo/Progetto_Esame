@@ -8,19 +8,6 @@ public class Vendita implements Serializable {
     private LocalDate dataVendita;
     private int Qnt;
     private Prodotto prodottoVenduto;
-    private boolean stringMatch;
-
-    Vendita(LocalDate _dataVendita, int _qnt, Prodotto prodVenduto) {
-        dataVendita = _dataVendita;
-        Qnt = _qnt;
-        prodottoVenduto = prodVenduto;
-    }
-
-    Vendita(LocalDate _dataVendita, int _qnt) {
-        dataVendita = _dataVendita;
-        Qnt = _qnt;
-        prodottoVenduto = new Prodotto();
-    }
 
     Vendita() {
     }
@@ -39,7 +26,7 @@ public class Vendita implements Serializable {
     }
 
     public void setDataVendita(String _dataVendita) {
-        stringMatch = _dataVendita.matches("\\d{4}\\-\\d{2}\\-\\d{2}");
+        boolean stringMatch = _dataVendita.matches("\\d{4}\\-\\d{2}\\-\\d{2}");
         if (stringMatch)
             dataVendita = LocalDate.parse(_dataVendita);
 

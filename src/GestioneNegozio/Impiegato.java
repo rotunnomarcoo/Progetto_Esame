@@ -7,12 +7,6 @@ public class Impiegato implements Serializable {
     private String CF;
     private String Cognome;
 
-    Impiegato(String _cf, String _nome, String _cognome) {
-        CF = _cf;
-        Nome = _nome;
-        Cognome = _cognome;
-    }
-
     Impiegato() {
     }
 

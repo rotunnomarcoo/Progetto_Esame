@@ -4,7 +4,6 @@ import prog.io.ConsoleInputManager;
 import prog.io.ConsoleOutputManager;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GestioneNegozio implements Serializable {
@@ -15,29 +14,16 @@ public class GestioneNegozio implements Serializable {
     private ArrayList<Vendita> listaVendite;
     private ArrayList<Ordine> listaOrdini;
 
-    GestioneNegozio(String _nomeNegozio, ArrayList<Impiegato> _listaImpiegati, ArrayList<Reparto> _listaReparti, ArrayList<Prodotto> _listaProdotti, ArrayList<Vendita> _listaVendite, ArrayList<Ordine> _listaOrdini) {
-        nomeNegozio = _nomeNegozio;
-        listaImpiegati = _listaImpiegati;
-        listaReparti = _listaReparti;
-        listaProdotti = _listaProdotti;
-        listaVendite = _listaVendite;
-        listaOrdini = _listaOrdini;
-    }
-
     GestioneNegozio(String _nomeNegozio) {
         nomeNegozio = _nomeNegozio;
-        listaImpiegati = new ArrayList<Impiegato>();
-        listaReparti = new ArrayList<Reparto>();
-        listaProdotti = new ArrayList<Prodotto>();
-        listaVendite = new ArrayList<Vendita>();
-        listaOrdini = new ArrayList<Ordine>();
-    }
-
-    GestioneNegozio() {
+        listaImpiegati = new ArrayList<>();
+        listaReparti = new ArrayList<>();
+        listaProdotti = new ArrayList<>();
+        listaVendite = new ArrayList<>();
+        listaOrdini = new ArrayList<>();
     }
 
     public void loadFromFile(ObjectInputStream objectInput) {
-
         try {
             this.setListaImpiegati((ArrayList<Impiegato>) objectInput.readObject());
             this.setListaReparti((ArrayList<Reparto>) objectInput.readObject());
@@ -320,78 +306,70 @@ public class GestioneNegozio implements Serializable {
         return -1;
     }
 
-    public void caricaVenditaInList(Vendita venditaLoader) {
-        listaVendite.add(venditaLoader);
-    }
-
-    public void caricaImpiegatoInList(Impiegato impiegatoLoader) {
-        listaImpiegati.add(impiegatoLoader);
-    }
-
-    public void caricaRepartoInList(Reparto repartoLoader) {
-        listaReparti.add(repartoLoader);
-    }
-
-    public void caricaProdottoInList(Prodotto prodottoLoader) {
-        listaProdotti.add(prodottoLoader);
-    }
-
     public void printImpiegato_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         consoleOut.println("Impiegati : ");
-        for (int i = 0; i < listaImpiegati.size(); i++) {
-            consoleOut.println("\n\tCodice Fiscale Impiegato : " + listaImpiegati.get(i).getCF());
-            consoleOut.println("\tNome Impiegato : " + listaImpiegati.get(i).getNome());
-            consoleOut.println("\tCognome Impiegato : " + listaImpiegati.get(i).getCognome());
+        for (Impiegato impiegato : listaImpiegati) {
+            consoleOut.println("\n\tCodice Fiscale Impiegato : " + impiegato.getCF());
+            consoleOut.println("\tNome Impiegato : " + impiegato.getNome());
+            consoleOut.println("\tCognome Impiegato : " + impiegato.getCognome());
         }
+    }
+
+    public void printImpiegato_userOutput(ConsoleOutputManager consoleOut, int index) {
+        consoleOut.println("----------------------------------------------------------");
+        consoleOut.println("Impiegato : ");
+        consoleOut.println("\n\tCodice Fiscale Impiegato : " + listaImpiegati.get(index).getCF());
+        consoleOut.println("\tNome Impiegato : " + listaImpiegati.get(index).getNome());
+        consoleOut.println("\tCognome Impiegato : " + listaImpiegati.get(index).getCognome());
     }
 
     public void printProdotto_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         consoleOut.println("Prodotti : ");
-        for (int i = 0; i < listaProdotti.size(); i++) {
-            consoleOut.println("\n\tCodice Prodotto : " + listaProdotti.get(i).getCodice());
-            consoleOut.println("\tDenominazione Prodotto : " + listaProdotti.get(i).getDenominazione());
-            consoleOut.println("\tProduttore : " + listaProdotti.get(i).getProduttore());
-            consoleOut.println("\tPrezzo : " + listaProdotti.get(i).getPrezzo());
+        for (Prodotto prodotto : listaProdotti) {
+            consoleOut.println("\n\tCodice Prodotto : " + prodotto.getCodice());
+            consoleOut.println("\tDenominazione Prodotto : " + prodotto.getDenominazione());
+            consoleOut.println("\tProduttore : " + prodotto.getProduttore());
+            consoleOut.println("\tPrezzo : " + prodotto.getPrezzo());
         }
     }
 
     public void printVendite_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         consoleOut.println("Vendite : ");
-        for (int i = 0; i < listaVendite.size(); i++) {
-            consoleOut.println("\n\tProdotto : " + listaVendite.get(i).getProdottoVenduto().getCodice());
-            consoleOut.println("\tData Vendita : " + listaVendite.get(i).getDataVendita());
-            consoleOut.println("\tQuantità vendute : " + listaVendite.get(i).getQnt());
+        for (Vendita vendita : listaVendite) {
+            consoleOut.println("\n\tProdotto : " + vendita.getProdottoVenduto().getCodice());
+            consoleOut.println("\tData Vendita : " + vendita.getDataVendita());
+            consoleOut.println("\tQuantità vendute : " + vendita.getQnt());
         }
     }
 
     public void printOrdini_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         consoleOut.println("Ordini : ");
-        for (int i = 0; i < listaOrdini.size(); i++) {
-            consoleOut.println("\n\tProdotto : " + listaOrdini.get(i).getProdottoVenduto().getCodice());
-            consoleOut.println("\tData Ordine : " + listaOrdini.get(i).getDataOrdine());
-            consoleOut.println("\tQuantità ordinate : " + listaOrdini.get(i).getQnt());
+        for (Ordine ordine : listaOrdini) {
+            consoleOut.println("\n\tProdotto : " + ordine.getProdottoVenduto().getCodice());
+            consoleOut.println("\tData Ordine : " + ordine.getDataOrdine());
+            consoleOut.println("\tQuantità ordinate : " + ordine.getQnt());
         }
     }
 
     public void printReparto_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         consoleOut.println("Reparti : ");
-        for (int i = 0; i < listaReparti.size(); i++) {
-            consoleOut.println("\n\tDenominazione Reparto : " + listaReparti.get(i).getDenominazione());
-            consoleOut.println("\tNome Responsabile Reparto : " + listaReparti.get(i).getResponsabileReparto());
+        for (Reparto reparto : listaReparti) {
+            consoleOut.println("\n\tDenominazione Reparto : " + reparto.getDenominazione());
+            consoleOut.println("\tNome Responsabile Reparto : " + reparto.getResponsabileReparto());
             consoleOut.println("\t\t----------------------------------------------------------");
-            consoleOut.println("\t\tImpiegati che lavorano in " + listaReparti.get(i).getDenominazione());
-            for (int j = 0; j < listaReparti.get(i).getListaImpiegati().size(); j++) {
-                consoleOut.println("\n\t\t\tNome Cognome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getNome() + " " + listaReparti.get(i).getListaImpiegati().get(j).getCognome());
+            consoleOut.println("\t\tImpiegati che lavorano in " + reparto.getDenominazione());
+            for (int j = 0; j < reparto.getListaImpiegati().size(); j++) {
+                consoleOut.println("\n\t\t\tNome Cognome Impiegato : " + reparto.getListaImpiegati().get(j).getNome() + " " + reparto.getListaImpiegati().get(j).getCognome());
             }
             consoleOut.println("\t\t----------------------------------------------------------");
-            consoleOut.println("\t\tProdotti in " + listaReparti.get(i).getDenominazione());
-            for (int j = 0; j < listaReparti.get(i).getListaProdotti().size(); j++) {
-                consoleOut.println("\n\t\t\tCodice Prodotto : " + listaReparti.get(i).getListaProdotti().get(j).getCodice());
+            consoleOut.println("\t\tProdotti in " + reparto.getDenominazione());
+            for (int j = 0; j < reparto.getListaProdotti().size(); j++) {
+                consoleOut.println("\n\t\t\tCodice Prodotto : " + reparto.getListaProdotti().get(j).getCodice());
             }
         }
     }
@@ -416,23 +394,23 @@ public class GestioneNegozio implements Serializable {
 
     public void printListaReparti_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
-        for (int i = 0; i < listaReparti.size(); i++) {
-            consoleOut.println("\n\tDenominazione Reparto : " + listaReparti.get(i).getDenominazione());
-            consoleOut.println("\tNome Responsabile Reparto : " + listaReparti.get(i).getResponsabileReparto());
+        for (Reparto reparto : listaReparti) {
+            consoleOut.println("\n\tDenominazione Reparto : " + reparto.getDenominazione());
+            consoleOut.println("\tNome Responsabile Reparto : " + reparto.getResponsabileReparto());
         }
     }
 
     public void printListaProdotti_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
-        for (int i = 0; i < listaProdotti.size(); i++) {
-            consoleOut.println("\n\tCodice  Prodotto : " + listaProdotti.get(i).getCodice());
+        for (Prodotto prodotto : listaProdotti) {
+            consoleOut.println("\n\tCodice  Prodotto : " + prodotto.getCodice());
         }
     }
 
     public void printListaImpiegati_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
-        for (int i = 0; i < listaImpiegati.size(); i++) {
-            consoleOut.println("\n\tNome Impiegato: " + listaImpiegati.get(i).getNome());
+        for (Impiegato impiegato : listaImpiegati) {
+            consoleOut.println("\n\tNome Impiegato: " + impiegato.getNome());
         }
     }
 
@@ -440,21 +418,21 @@ public class GestioneNegozio implements Serializable {
         try {
             fileWriter.write("\n\n-----------------------------------------------------------");
             fileWriter.write("\nLista Reparti in " + this.nomeNegozio);
-            for (int i = 0; i < listaReparti.size(); i++) {
-                fileWriter.write("\n\n\tDenominativo Reparto : " + listaReparti.get(i).getDenominazione());
-                fileWriter.write("\n\tNome Responsabile Reparto : " + listaReparti.get(i).getResponsabileReparto());
-                fileWriter.write("\n\t\tImpiegati che lavorano in " + listaReparti.get(i).getDenominazione());
-                for (int j = 0; j < listaReparti.get(i).getListaImpiegati().size(); j++) {
-                    fileWriter.write("\n\t\t\tCodice Fiscale Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCF());
-                    fileWriter.write("\n\t\t\tNome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getNome());
-                    fileWriter.write("\n\t\t\tCognome Impiegato : " + listaReparti.get(i).getListaImpiegati().get(j).getCognome());
+            for (Reparto reparto : listaReparti) {
+                fileWriter.write("\n\n\tDenominativo Reparto : " + reparto.getDenominazione());
+                fileWriter.write("\n\tNome Responsabile Reparto : " + reparto.getResponsabileReparto());
+                fileWriter.write("\n\t\tImpiegati che lavorano in " + reparto.getDenominazione());
+                for (int j = 0; j < reparto.getListaImpiegati().size(); j++) {
+                    fileWriter.write("\n\t\t\tCodice Fiscale Impiegato : " + reparto.getListaImpiegati().get(j).getCF());
+                    fileWriter.write("\n\t\t\tNome Impiegato : " + reparto.getListaImpiegati().get(j).getNome());
+                    fileWriter.write("\n\t\t\tCognome Impiegato : " + reparto.getListaImpiegati().get(j).getCognome());
                 }
-                fileWriter.write("\n\t\tProdotti in " + listaReparti.get(i).getDenominazione());
-                for (int j = 0; j < listaReparti.get(i).getListaImpiegati().size(); j++) {
-                    fileWriter.write("\n\t\t\tCodice Prodotto : " + listaReparti.get(i).getListaProdotti().get(j).getCodice());
-                    fileWriter.write("\n\t\t\tDenominativo Prodotto : " + listaReparti.get(i).getListaProdotti().get(j).getDenominazione());
-                    fileWriter.write("\n\t\t\tProduttore : " + listaReparti.get(i).getListaProdotti().get(j).getProduttore());
-                    fileWriter.write("\n\t\t\tPrezzo : " + listaReparti.get(i).getListaProdotti().get(j).getPrezzo());
+                fileWriter.write("\n\t\tProdotti in " + reparto.getDenominazione());
+                for (int j = 0; j < reparto.getListaImpiegati().size(); j++) {
+                    fileWriter.write("\n\t\t\tCodice Prodotto : " + reparto.getListaProdotti().get(j).getCodice());
+                    fileWriter.write("\n\t\t\tDenominativo Prodotto : " + reparto.getListaProdotti().get(j).getDenominazione());
+                    fileWriter.write("\n\t\t\tProduttore : " + reparto.getListaProdotti().get(j).getProduttore());
+                    fileWriter.write("\n\t\t\tPrezzo : " + reparto.getListaProdotti().get(j).getPrezzo());
                 }
             }
         } catch (IOException e) {
@@ -467,10 +445,10 @@ public class GestioneNegozio implements Serializable {
         try {
             fileWriter.write("----------------------------------------------------------");
             fileWriter.write("\nLista Impiegati che lavorano in " + this.nomeNegozio);
-            for (int i = 0; i < listaImpiegati.size(); i++) {
-                fileWriter.write("\n\n\tCodice Fiscale Impiegato : " + listaImpiegati.get(i).getCF());
-                fileWriter.write("\n\tNome Impiegato : " + listaImpiegati.get(i).getNome());
-                fileWriter.write("\n\tCognome Impiegato : " + listaImpiegati.get(i).getCognome());
+            for (Impiegato impiegato : listaImpiegati) {
+                fileWriter.write("\n\n\tCodice Fiscale Impiegato : " + impiegato.getCF());
+                fileWriter.write("\n\tNome Impiegato : " + impiegato.getNome());
+                fileWriter.write("\n\tCognome Impiegato : " + impiegato.getCognome());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -483,11 +461,11 @@ public class GestioneNegozio implements Serializable {
         try {
             fileWriter.write("\n\n-----------------------------------------------------------");
             fileWriter.write("\nLista Prodotti in " + this.nomeNegozio);
-            for (int i = 0; i < listaProdotti.size(); i++) {
-                fileWriter.write("\n\n\tCodice Prodotto : " + listaProdotti.get(i).getCodice());
-                fileWriter.write("\n\tDenominazione Prodotto : " + listaProdotti.get(i).getDenominazione());
-                fileWriter.write("\n\tProduttore : " + listaProdotti.get(i).getProduttore());
-                fileWriter.write("\n\tPrezzo : " + listaProdotti.get(i).getPrezzo());
+            for (Prodotto prodotto : listaProdotti) {
+                fileWriter.write("\n\n\tCodice Prodotto : " + prodotto.getCodice());
+                fileWriter.write("\n\tDenominazione Prodotto : " + prodotto.getDenominazione());
+                fileWriter.write("\n\tProduttore : " + prodotto.getProduttore());
+                fileWriter.write("\n\tPrezzo : " + prodotto.getPrezzo());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -499,10 +477,10 @@ public class GestioneNegozio implements Serializable {
         try {
             fileWriter.write("\n\n-----------------------------------------------------------");
             fileWriter.write("\nLista Vendite in " + this.nomeNegozio);
-            for (int i = 0; i < listaVendite.size(); i++) {
-                fileWriter.write("\n\n\tProdotto : " + listaVendite.get(i).getProdottoVenduto().getCodice());
-                fileWriter.write("\n\tData Vendita : " + listaVendite.get(i).getDataVendita());
-                fileWriter.write("\n\tQuantità vendute : " + listaVendite.get(i).getQnt());
+            for (Vendita vendita : listaVendite) {
+                fileWriter.write("\n\n\tProdotto : " + vendita.getProdottoVenduto().getCodice());
+                fileWriter.write("\n\tData Vendita : " + vendita.getDataVendita());
+                fileWriter.write("\n\tQuantità vendute : " + vendita.getQnt());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -514,10 +492,10 @@ public class GestioneNegozio implements Serializable {
         try {
             fileWriter.write("\n\n-----------------------------------------------------------");
             fileWriter.write("\nLista Ordini in " + this.nomeNegozio);
-            for (int i = 0; i < listaOrdini.size(); i++) {
-                fileWriter.write("\n\n\tProdotto : " + listaOrdini.get(i).getProdottoVenduto().getCodice());
-                fileWriter.write("\n\tData Ordine : " + listaOrdini.get(i).getDataOrdine());
-                fileWriter.write("\n\tQuantità ordinate : " + listaOrdini.get(i).getQnt());
+            for (Ordine ordine : listaOrdini) {
+                fileWriter.write("\n\n\tProdotto : " + ordine.getProdottoVenduto().getCodice());
+                fileWriter.write("\n\tData Ordine : " + ordine.getDataOrdine());
+                fileWriter.write("\n\tQuantità ordinate : " + ordine.getQnt());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -526,8 +504,6 @@ public class GestioneNegozio implements Serializable {
     }
 
     public void loadReparto_UserInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
-        //Reparto repartoLoader = new Reparto("Schede Video", "Rossi Franco");
-        //caricaRepartoInList(repartoLoader);
         String loadAnother = "s";
         while (loadAnother.equalsIgnoreCase("s")) {
             caricaReparto_userInput(consoleOut, consoleIn);
@@ -537,8 +513,6 @@ public class GestioneNegozio implements Serializable {
     }
 
     public void loadImpiegato_UserInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
-        //Impiegato impiegatoLoader = new Impiegato("RTNMRC01P12I452D", "Marco", "Rotunno");
-        //caricaImpiegatoInList(impiegatoLoader);
         String loadAnother = "s";
         while (loadAnother.equalsIgnoreCase("s")) {
             //listaImpiegati per caricare nel negozio
@@ -549,8 +523,6 @@ public class GestioneNegozio implements Serializable {
     }
 
     public void loadProdotto_UserInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
-        //Prodotto prodottoLoader = new Prodotto("RTX3080OC", "GPU RTX 3080 Overclocked", "Asus Rog", 699f);
-        //caricaProdottoInList(prodottoLoader);
         String loadAnother = "s";
         while (loadAnother.equalsIgnoreCase("s")) {
             caricaProdotto_userInput(consoleOut, consoleIn);
@@ -560,8 +532,6 @@ public class GestioneNegozio implements Serializable {
     }
 
     public void loadVendita_UserInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
-        //Vendita vendita Loader = new Prodotto("RTX3080OC","GPU RTX 3080 Overclocked","Asus Rog",699f);
-        //managerNegozio.caricaProdottoInList(prodottoLoader);
         String loadAnother = "s";
         while (loadAnother.equalsIgnoreCase("s")) {
             caricaVendita_userInput(consoleOut, consoleIn);

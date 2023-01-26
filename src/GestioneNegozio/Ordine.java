@@ -7,19 +7,6 @@ public class Ordine implements Serializable {
     private LocalDate dataOrdine;
     private int Qnt;
     private Prodotto prodottoVenduto;
-    private boolean stringMatch;
-
-    Ordine(LocalDate _dataOrdine, int _qnt, Prodotto prodVenduto) {
-        dataOrdine = _dataOrdine;
-        Qnt = _qnt;
-        prodottoVenduto = prodVenduto;
-    }
-
-    Ordine(LocalDate _dataOrdine, int _qnt) {
-        dataOrdine = _dataOrdine;
-        Qnt = _qnt;
-        prodottoVenduto = new Prodotto();
-    }
 
     Ordine() {
     }
@@ -38,12 +25,11 @@ public class Ordine implements Serializable {
     }
 
     public void setDataOrdine(String _dataOrdine) {
-        stringMatch = _dataOrdine.matches("\\d{4}\\-\\d{2}\\-\\d{2}");
+        boolean stringMatch = _dataOrdine.matches("\\d{4}\\-\\d{2}\\-\\d{2}");
         if (stringMatch)
             dataOrdine = LocalDate.parse(_dataOrdine);
 
     }
-
     public int getQnt() {
         return Qnt;
     }
