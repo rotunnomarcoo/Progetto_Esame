@@ -108,17 +108,20 @@ public class Main implements Serializable {
                                 "\n\t3 : Prodotto" +
                                 "\n\t4 : Vendita" +
                                 "\n\t5 : Ordine" +
-                                "\n\t6 : Nome Negozio" +
+                                "\n\t6 : Negozio" +
+                                "\n\t7 : Nome Negozio" +
                                 "\n0 : Torno indietro");
                         switchLoad = Integer.parseInt(consoleIn.readLine());
                         //Controllo errori
-                        while (!(0 <= switchLoad && switchLoad <= 6)) {
+                        while (!(0 <= switchLoad && switchLoad <= 7)) {
                             consoleOut.println("Errore - Cosa vuoi visualizzare? :" +
                                     "\n\t1 : Reparto" +
                                     "\n\t2 : Impiegato" +
                                     "\n\t3 : Prodotto" +
                                     "\n\t4 : Vendita" +
                                     "\n\t5 : Ordine" +
+                                    "\n\t6 : Negozio" +
+                                    "\n\t7 : Nome Negozio" +
                                     "\n0 : Torno indietro");
                             switchLoad = Integer.parseInt(consoleIn.readLine());
                         }
@@ -144,8 +147,12 @@ public class Main implements Serializable {
                             case 5 -> {
                                 managerNegozio.printOrdini_userOutput(consoleOut);
                             }
-                            //Visualizzo nome negozio
+                            //Visualizzo negozio
                             case 6 -> {
+                                managerNegozio.printUserOutput(consoleOut);
+                            }
+                            //Visualizzo nome negozio
+                            case 7 -> {
                                 consoleOut.println(managerNegozio.getNomeNegozio());
                             }
                             //Torno indietro
@@ -582,7 +589,8 @@ public class Main implements Serializable {
                     fileInput.close();
                     objectInput.close();
                 }
-                case 0 ->{
+                //Chiudo Programma
+                case 0 -> {
                     consoleIn.close();
                     consoleOut.close();
                 }

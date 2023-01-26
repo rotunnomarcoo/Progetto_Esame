@@ -105,12 +105,12 @@ public class GestioneNegozio implements Serializable {
         printOrdini_onFile(fw);
     }
 
-    public void printUserOutput(ConsoleOutputManager outln, ConsoleInputManager inln) {
-        printImpiegato_userOutput(outln);
-        printReparto_userOutput(outln);
-        printProdotto_userOutput(outln);
-        printVendite_userOutput(outln);
-        printOrdini_userOutput(outln);
+    public void printUserOutput(ConsoleOutputManager consoleOut) {
+        printImpiegato_userOutput(consoleOut);
+        printReparto_userOutput(consoleOut);
+        printProdotto_userOutput(consoleOut);
+        printVendite_userOutput(consoleOut);
+        printOrdini_userOutput(consoleOut);
     }
 
     public void saveOnFile(ObjectOutputStream objectOutput) {
@@ -126,28 +126,28 @@ public class GestioneNegozio implements Serializable {
 
     }
 
-    public void caricaImpiegato_userInput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+    public void caricaImpiegato_userInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
         //impiegatoLoader per caricare
         Impiegato impiegatoLoader = new Impiegato();
-        outln.println("Codice Fiscale Impiegato : ");
-        impiegatoLoader.setCF(inln.readLine());
-        outln.println("Nome Impiegato : ");
-        impiegatoLoader.setNome(inln.readLine());
-        outln.println("Cognome Impiegato : ");
-        impiegatoLoader.setCognome(inln.readLine());
+        consoleOut.println("Codice Fiscale Impiegato : ");
+        impiegatoLoader.setCF(consoleIn.readLine());
+        consoleOut.println("Nome Impiegato : ");
+        impiegatoLoader.setNome(consoleIn.readLine());
+        consoleOut.println("Cognome Impiegato : ");
+        impiegatoLoader.setCognome(consoleIn.readLine());
         listaImpiegati.add(impiegatoLoader);
-        outln.println("Inserisci il denominativo del reparto oppure lascia vuoto : ");
-        printListaReparti_userOutput(outln);
-        String repartoAssociato = inln.readLine();
+        consoleOut.println("Inserisci il denominativo del reparto oppure lascia vuoto : ");
+        printListaReparti_userOutput(consoleOut);
+        String repartoAssociato = consoleIn.readLine();
         if (repartoAssociato.equalsIgnoreCase("")) {
             return;
         }
         int index = trovaRepartoByNome(repartoAssociato);
         if (index == -1) {
             while (index == -1) {
-                outln.println("Errore, Inserisci il denominativo del reparto oppure lascia vuoto : ");
-                printListaReparti_userOutput(outln);
-                repartoAssociato = inln.readLine();
+                consoleOut.println("Errore, Inserisci il denominativo del reparto oppure lascia vuoto : ");
+                printListaReparti_userOutput(consoleOut);
+                repartoAssociato = consoleIn.readLine();
                 index = trovaRepartoByNome(repartoAssociato);
                 if (!repartoAssociato.equalsIgnoreCase("") && index != -1) {
                     listaReparti.get(index).getListaImpiegati().add(impiegatoLoader);
@@ -160,41 +160,41 @@ public class GestioneNegozio implements Serializable {
         }
     }
 
-    public void caricaReparto_userInput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+    public void caricaReparto_userInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
         //repartoLoader per caricare
         Reparto repartoLoader = new Reparto();
-        outln.println("Denominazione Reparto : ");
-        repartoLoader.setDenominazione(inln.readLine());
-        outln.println("Nome Responsabile Reparto : ");
-        repartoLoader.setResponsabileReparto(inln.readLine());
+        consoleOut.println("Denominazione Reparto : ");
+        repartoLoader.setDenominazione(consoleIn.readLine());
+        consoleOut.println("Nome Responsabile Reparto : ");
+        repartoLoader.setResponsabileReparto(consoleIn.readLine());
 
         listaReparti.add(repartoLoader);
     }
 
-    public void caricaProdotto_userInput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+    public void caricaProdotto_userInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
         //repartoLoader per caricare
         Prodotto prodottoLoader = new Prodotto();
-        outln.println("Codice Prodotto : ");
-        prodottoLoader.setCodice(inln.readLine());
-        outln.println("Denominazione Prodotto : ");
-        prodottoLoader.setDenominazione(inln.readLine());
-        outln.println("Produttore : ");
-        prodottoLoader.setProduttore(inln.readLine());
-        outln.println("Prezzo : ");
-        prodottoLoader.setPrezzo(inln.readLine());
+        consoleOut.println("Codice Prodotto : ");
+        prodottoLoader.setCodice(consoleIn.readLine());
+        consoleOut.println("Denominazione Prodotto : ");
+        prodottoLoader.setDenominazione(consoleIn.readLine());
+        consoleOut.println("Produttore : ");
+        prodottoLoader.setProduttore(consoleIn.readLine());
+        consoleOut.println("Prezzo : ");
+        prodottoLoader.setPrezzo(consoleIn.readLine());
         listaProdotti.add(prodottoLoader);
-        outln.println("Inserisci il denominativo del reparto a cui appartiene questo prodotto oppure lascia vuoto: ");
-        printListaReparti_userOutput(outln);
-        String repartoAssociato = inln.readLine();
+        consoleOut.println("Inserisci il denominativo del reparto a cui appartiene questo prodotto oppure lascia vuoto: ");
+        printListaReparti_userOutput(consoleOut);
+        String repartoAssociato = consoleIn.readLine();
         if (repartoAssociato.equalsIgnoreCase("")) {
             return;
         }
         int index = trovaRepartoByNome(repartoAssociato);
         if (index == -1) {
             while (index == -1) {
-                outln.println("Errore, Inserisci il denominativo del reparto oppure lascia vuoto : ");
-                printListaReparti_userOutput(outln);
-                repartoAssociato = inln.readLine();
+                consoleOut.println("Errore, Inserisci il denominativo del reparto oppure lascia vuoto : ");
+                printListaReparti_userOutput(consoleOut);
+                repartoAssociato = consoleIn.readLine();
                 index = trovaRepartoByNome(repartoAssociato);
                 if (!repartoAssociato.equalsIgnoreCase("") && index != -1) {
                     listaReparti.get(index).getListaProdotti().add(prodottoLoader);
@@ -207,16 +207,16 @@ public class GestioneNegozio implements Serializable {
         }
     }
 
-    public void caricaVendita_userInput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+    public void caricaVendita_userInput(ConsoleOutputManager consoleOut, ConsoleInputManager consoleIn) {
         //repartoLoader per caricare
         Vendita venditaLoader = new Vendita();
-        outln.println("Data Vendita in formato YYYY-MM-DD : ");
-        venditaLoader.setDataVendita(inln.readLine());
-        outln.println("Quantità vendute : ");
-        venditaLoader.setQnt(inln.readLine());
-        outln.println("Inserisci il denominativo del prodotto venduto oppure lascia vuoto: ");
-        printListaProdotti_userOutput(outln);
-        String prodottoAssociato = inln.readLine();
+        consoleOut.println("Data Vendita in formato YYYY-MM-DD : ");
+        venditaLoader.setDataVendita(consoleIn.readLine());
+        consoleOut.println("Quantità vendute : ");
+        venditaLoader.setQnt(consoleIn.readLine());
+        consoleOut.println("Inserisci il denominativo del prodotto venduto oppure lascia vuoto: ");
+        printListaProdotti_userOutput(consoleOut);
+        String prodottoAssociato = consoleIn.readLine();
         int index = trovaProdottoByCodice(prodottoAssociato);
         if (prodottoAssociato.equalsIgnoreCase("")) {
             venditaLoader.setEmptyProdottoVenduto();
@@ -225,9 +225,9 @@ public class GestioneNegozio implements Serializable {
         }
         if (index == -1) {
             while (index == -1) {
-                outln.println("Errore, Inserisci il codice del prodotto oppure lascia vuoto : ");
-                printListaProdotti_userOutput(outln);
-                prodottoAssociato = inln.readLine();
+                consoleOut.println("Errore, Inserisci il codice del prodotto oppure lascia vuoto : ");
+                printListaProdotti_userOutput(consoleOut);
+                prodottoAssociato = consoleIn.readLine();
                 index = trovaProdottoByCodice(prodottoAssociato);
                 if (!prodottoAssociato.equalsIgnoreCase("") && index != -1) {
                     venditaLoader.setProdottoVenduto(listaProdotti.get(index));
@@ -241,15 +241,15 @@ public class GestioneNegozio implements Serializable {
         }
     }
 
-    public void caricaOrdine_userInput(ConsoleOutputManager outln, ConsoleInputManager inln) {
+    public void caricaOrdine_userInput(ConsoleOutputManager consoleOut, ConsoleInputManager inln) {
         //repartoLoader per caricare
         Ordine ordineLoader = new Ordine();
-        outln.println("Data ordine in formato YYYY-MM-DD : ");
+        consoleOut.println("Data ordine in formato YYYY-MM-DD : ");
         ordineLoader.setDataOrdine(inln.readLine());
-        outln.println("Quantità ordinate : ");
+        consoleOut.println("Quantità ordinate : ");
         ordineLoader.setQnt(inln.readLine());
-        outln.println("Inserisci il denominativo del prodotto ordinato oppure lascia vuoto: ");
-        printListaProdotti_userOutput(outln);
+        consoleOut.println("Inserisci il denominativo del prodotto ordinato oppure lascia vuoto: ");
+        printListaProdotti_userOutput(consoleOut);
         String prodottoAssociato = inln.readLine();
         int index = trovaProdottoByCodice(prodottoAssociato);
         if (prodottoAssociato.equalsIgnoreCase("")) {
@@ -259,8 +259,8 @@ public class GestioneNegozio implements Serializable {
         }
         if (index == -1) {
             while (index == -1) {
-                outln.println("Errore, Inserisci il codice del prodotto oppure lascia vuoto : ");
-                printListaProdotti_userOutput(outln);
+                consoleOut.println("Errore, Inserisci il codice del prodotto oppure lascia vuoto : ");
+                printListaProdotti_userOutput(consoleOut);
                 prodottoAssociato = inln.readLine();
                 index = trovaProdottoByCodice(prodottoAssociato);
                 if (!prodottoAssociato.equalsIgnoreCase("") && index != -1) {
