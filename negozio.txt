@@ -1,47 +1,89 @@
 ----------------------------------------------------------
 Lista Impiegati che lavorano in Asus Rog Inc.
 
-	Codice Fiscale Impiegato : RTNMRC01P12I452d
+	Codice Fiscale Impiegato : ASDASD
+	Nome Impiegato : Michele
+	Cognome Impiegato : Abate
+	Reparti Assegnati : 
+		Power Supply
+
+	Codice Fiscale Impiegato : RTNMRC
 	Nome Impiegato : Marco
 	Cognome Impiegato : Rotunno
-
-	Codice Fiscale Impiegato : s
-	Nome Impiegato : d
-	Cognome Impiegato : d
+	Reparti Assegnati : 
+		Schede Video
 
 -----------------------------------------------------------
 Lista Reparti in Asus Rog Inc.
 
+	Denominativo Reparto : Power Supply
+	Nome Responsabile Reparto : Marco
+		Impiegati che lavorano in Power Supply
+			Codice Fiscale Impiegato : ASDASD
+			Nome Impiegato : Michele
+			Cognome Impiegato : Abate
+		Prodotti in Power Supply
+			Codice Prodotto : PSU1500X
+			Denominativo Prodotto : Power supply 1500W 80plus gold
+			Produttore : Corsair
+			Prezzo : 250.0
+
 	Denominativo Reparto : Schede Video
 	Nome Responsabile Reparto : Franco
 		Impiegati che lavorano in Schede Video
-			Codice Fiscale Impiegato : RTNMRC01P12I452d
+			Codice Fiscale Impiegato : RTNMRC
 			Nome Impiegato : Marco
 			Cognome Impiegato : Rotunno
 		Prodotti in Schede Video
 			Codice Prodotto : RTX4090OC
-			Denominativo Prodotto : GPU RTX 4090 Overclock
+			Denominativo Prodotto : Nvidia RTX 4090 Overclock
 			Produttore : Asus
-			Prezzo : 900.0
+			Prezzo : 999.0
+			Codice Prodotto : rtx3080ti
+			Denominativo Prodotto : 
+			Produttore : asus tuf
+			Prezzo : 800.0
 
 -----------------------------------------------------------
 Lista Prodotti in Asus Rog Inc.
 
 	Codice Prodotto : RTX4090OC
-	Denominazione Prodotto : GPU RTX 4090 Overclock
+	Denominazione Prodotto : Nvidia RTX 4090 Overclock
 	Produttore : Asus
-	Prezzo : 900.0
+	Prezzo : 999.0
+
+	Codice Prodotto : PSU1500X
+	Denominazione Prodotto : Power supply 1500W 80plus gold
+	Produttore : Corsair
+	Prezzo : 250.0
+
+	Codice Prodotto : rtx3080ti
+	Denominazione Prodotto : 
+	Produttore : asus tuf
+	Prezzo : 800.0
 
 -----------------------------------------------------------
 Lista Vendite in Asus Rog Inc.
 
 	Prodotto : RTX4090OC
-	Data Vendita : 2023-02-12
+	Data Vendita : 2023-01-15
+	Quantità vendute : 2
+
+	Prodotto : PSU1500X
+	Data Vendita : 2020-10-22
 	Quantità vendute : 5
+
+	Prodotto : rtx3080ti
+	Data Vendita : 2020-10-15
+	Quantità vendute : 1
 
 -----------------------------------------------------------
 Lista Ordini in Asus Rog Inc.
 
+	Prodotto : PSU1500X
+	Data Ordine : 2023-01-15
+	Quantità ordinate : 2
+
 	Prodotto : RTX4090OC
-	Data Ordine : 2012-12-12
-	Quantità ordinate : 5
+	Data Ordine : 2010-12-10
+	Quantità ordinate : 0

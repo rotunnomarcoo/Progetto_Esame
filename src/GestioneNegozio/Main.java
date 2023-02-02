@@ -29,7 +29,7 @@ public class Main implements Serializable {
                     \t1 : Caricare
                     \t2 : Visualizzare
                     \t3 : Modificare
-                    \t4 : Stampa in file
+                    \t4 : Salva in file
                     \t5 : Caricare dati da file
                     \t6 : Cancellare file stampato
                     \t7 : Cancellare dati in file
@@ -38,12 +38,15 @@ public class Main implements Serializable {
             //Controllo errori
             while (!(0 <= runtime && runtime <= 7)) {
                 consoleOut.println("""
-                        Errore - Cosa vuoi fare?
-                        \t1 : Caricare
-                        \t2 : Visualizzare
-                        \t3 : Modificare
-                        \t4 : Salvare file
-                        \t5 : Caricare dati da file""");
+                    Errore - Cosa vuoi fare?
+                    \t1 : Caricare
+                    \t2 : Visualizzare
+                    \t3 : Modificare
+                    \t4 : Salva in file
+                    \t5 : Caricare dati da file
+                    \t6 : Cancellare file stampato
+                    \t7 : Cancellare dati in file
+                    \t0 : Chiudere programma""");
                 runtime = Integer.parseInt(consoleIn.readLine());
             }
             switchLoad = -1;
@@ -151,10 +154,11 @@ public class Main implements Serializable {
                                 \t4 : Vendita
                                 \t5 : Ordine
                                 \t6 : Nome Negozio
+                                \t7 : Ordinamento Impiegati per Cognome
                                 0 : Torno indietro""");
                         switchLoad = Integer.parseInt(consoleIn.readLine());
                         //Controllo errori
-                        while (!(0 <= switchLoad && switchLoad <= 6)) {
+                        while (!(0 <= switchLoad && switchLoad <= 7)) {
                             consoleOut.println("""
                                     Errore - Cosa vuoi modificare? :
                                     \t1 : Reparto
@@ -162,6 +166,8 @@ public class Main implements Serializable {
                                     \t3 : Prodotto
                                     \t4 : Vendita
                                     \t5 : Ordine
+                                    \t6 : Nome Negozio
+                                    \t7 : Ordinamento Impiegati per Cognome
                                     0 : Torno indietro""");
                             switchLoad = Integer.parseInt(consoleIn.readLine());
                         }
@@ -197,6 +203,7 @@ public class Main implements Serializable {
                                             \t3 : Impiegati
                                             \t4 : Prodotti
                                             \t5 : Elimina
+                                            \t6 : Aggiungi Impiegato
                                             0 : Torno indietro""");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
@@ -337,6 +344,7 @@ public class Main implements Serializable {
                                             break;
                                         }
                                         managerNegozio.getListaReparti().get(index).getListaImpiegati().add(managerNegozio.getListaImpiegati().get(indexImpiegato));
+                                        managerNegozio.getListaImpiegati().get(indexImpiegato).getListaReparti().add(managerNegozio.getListaReparti().get(index));
                                     }
                                     //Torno indietro
                                     case 0 -> {
@@ -372,6 +380,7 @@ public class Main implements Serializable {
                                             \t2 : Cognome
                                             \t3 : Codice Fiscale
                                             \t4 : Elimina
+                                            \t5 : Reparto Associato
                                             0 : Torna indietro""");
                                     switchModifica = Integer.parseInt(consoleIn.readLine());
                                 }
@@ -402,14 +411,49 @@ public class Main implements Serializable {
                                     case 4 -> managerNegozio.eliminaImpiegato(indexImpiegato);
                                     //Modifico reparto associato
                                     case 5 -> {
-                                        consoleOut.println("In che reparto opera " + managerNegozio.getListaImpiegati().get(indexImpiegato).getNome());
-                                        managerNegozio.printListaReparti_userOutput(consoleOut);
-                                        int indexReparto = managerNegozio.trovaRepartoByNome(consoleIn.readLine());
-                                        if (indexReparto == -1) {
-                                            consoleOut.println("errore");
-                                            break;
+                                        managerNegozio.printListaRepartiByImpiegato_userOutput(consoleOut, indexImpiegato);
+                                        consoleOut.println("""
+                                                Cosa vuoi fare? :
+                                                \t1 : Aggiungere Reparto
+                                                \t2 : Eliminare Reparto
+                                                0 : Torna indietro""");
+                                        switchModifica = Integer.parseInt(consoleIn.readLine());
+                                        //Controllo errore
+                                        while (!(0 <= switchModifica && switchModifica <= 2)) {
+                                            consoleOut.println("""
+                                                    Errore - Cosa vuoi modificare? :
+                                                    \t1 : Aggiungere Reparto
+                                                    \t2 : Eliminare Reparto
+                                                    0 : Torna indietro""");
+                                            switchModifica = Integer.parseInt(consoleIn.readLine());
                                         }
-                                        managerNegozio.getListaReparti().get(indexReparto).getListaImpiegati().add(managerNegozio.getListaImpiegati().get(indexImpiegato));
+                                        switch (switchModifica) {
+                                            case 1 -> {
+                                                consoleOut.println("In che reparto opera " + managerNegozio.getListaImpiegati().get(indexImpiegato).getNome());
+                                                managerNegozio.printListaReparti_userOutput(consoleOut);
+                                                int indexReparto = managerNegozio.trovaRepartoByNome(consoleIn.readLine());
+                                                if (indexReparto == -1) {
+                                                    consoleOut.println("errore");
+                                                    break;
+                                                }
+                                                managerNegozio.getListaImpiegati().get(indexImpiegato).getListaReparti().add(managerNegozio.getListaReparti().get(indexReparto));
+                                                managerNegozio.getListaReparti().get(indexReparto).getListaImpiegati().add(managerNegozio.getListaImpiegati().get(indexImpiegato));
+                                            }
+                                            case 2 -> {
+                                                consoleOut.println("Che reparto vuoi eliminare? ");
+                                                managerNegozio.printListaReparti_userOutput(consoleOut);
+                                                int indexReparto = managerNegozio.trovaRepartoByNome(consoleIn.readLine());
+                                                if (indexReparto == -1) {
+                                                    consoleOut.println("errore");
+                                                    break;
+                                                }
+                                                managerNegozio.getListaImpiegati().get(indexImpiegato).getListaReparti().remove(managerNegozio.getListaReparti().get(indexReparto));
+                                                managerNegozio.getListaReparti().get(indexReparto).getListaImpiegati().remove(managerNegozio.getListaImpiegati().get(indexImpiegato));
+                                            }
+                                            case 0 -> {
+                                            }
+                                        }
+
                                     }
                                     //Torno indietro
                                     case 0 -> {
@@ -569,10 +613,13 @@ public class Main implements Serializable {
                                     }
                                 }
                             }
+                            //Modifica nome negozio
                             case 6 -> {
                                 consoleOut.println("Modifica nome Negozio : " + managerNegozio.getNomeNegozio());
                                 managerNegozio.setNomeNegozio(consoleIn.readLine());
                             }
+                            //Ordinare impiegati per cognome
+                            case 7 -> managerNegozio.ordinaImpiegatiByCognome(managerNegozio.getListaImpiegati());
                             //Torno indietro
                             case 0 -> {
                             }

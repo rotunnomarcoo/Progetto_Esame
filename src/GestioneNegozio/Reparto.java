@@ -5,7 +5,6 @@ import prog.io.ConsoleOutputManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Reparto implements Serializable {
     private String Denominazione;
     private String ResponsabileReparto;
@@ -13,8 +12,8 @@ public class Reparto implements Serializable {
     private final List<Prodotto> listaProdotti;
 
     Reparto() {
-        listaImpiegati = new ArrayList<Impiegato>();
-        listaProdotti = new ArrayList<Prodotto>();
+        listaImpiegati = new ArrayList<>();
+        listaProdotti = new ArrayList<>();
     }
 
     public String getDenominazione() {

@@ -5,6 +5,7 @@ import prog.io.ConsoleOutputManager;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GestioneNegozio implements Serializable {
     private String nomeNegozio;
@@ -30,6 +31,7 @@ public class GestioneNegozio implements Serializable {
             this.setListaProdotti((ArrayList<Prodotto>) objectInput.readObject());
             this.setListaVendite((ArrayList<Vendita>) objectInput.readObject());
             this.setListaOrdini((ArrayList<Ordine>) objectInput.readObject());
+            this.ordinaImpiegatiByCognome(listaImpiegati);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -121,11 +123,11 @@ public class GestioneNegozio implements Serializable {
         impiegatoLoader.setNome(consoleIn.readLine());
         consoleOut.println("Cognome Impiegato : ");
         impiegatoLoader.setCognome(consoleIn.readLine());
-        listaImpiegati.add(impiegatoLoader);
         consoleOut.println("Inserisci il denominativo del reparto oppure lascia vuoto : ");
         printListaReparti_userOutput(consoleOut);
         String repartoAssociato = consoleIn.readLine();
         if (repartoAssociato.equalsIgnoreCase("")) {
+            listaImpiegati.add(impiegatoLoader);
             return;
         }
         int index = trovaRepartoByNome(repartoAssociato);
@@ -136,12 +138,16 @@ public class GestioneNegozio implements Serializable {
                 repartoAssociato = consoleIn.readLine();
                 index = trovaRepartoByNome(repartoAssociato);
                 if (!repartoAssociato.equalsIgnoreCase("") && index != -1) {
+                    impiegatoLoader.getListaReparti().add(listaReparti.get(index));
+                    listaImpiegati.add(impiegatoLoader);
                     listaReparti.get(index).getListaImpiegati().add(impiegatoLoader);
                 } else if (repartoAssociato.equalsIgnoreCase("")) {
                     break;
                 }
             }
         } else {
+            impiegatoLoader.getListaReparti().add(listaReparti.get(index));
+            listaImpiegati.add(impiegatoLoader);
             listaReparti.get(index).getListaImpiegati().add(impiegatoLoader);
         }
     }
@@ -313,6 +319,10 @@ public class GestioneNegozio implements Serializable {
             consoleOut.println("\n\tCodice Fiscale Impiegato : " + impiegato.getCF());
             consoleOut.println("\tNome Impiegato : " + impiegato.getNome());
             consoleOut.println("\tCognome Impiegato : " + impiegato.getCognome());
+            consoleOut.println("\tReparti Assegnati : ");
+            for (int i = 0; i < impiegato.getListaReparti().size(); i++) {
+                consoleOut.println("\t\t" + impiegato.getListaReparti().get(i).getDenominazione());
+            }
         }
     }
 
@@ -322,6 +332,10 @@ public class GestioneNegozio implements Serializable {
         consoleOut.println("\n\tCodice Fiscale Impiegato : " + listaImpiegati.get(index).getCF());
         consoleOut.println("\tNome Impiegato : " + listaImpiegati.get(index).getNome());
         consoleOut.println("\tCognome Impiegato : " + listaImpiegati.get(index).getCognome());
+        consoleOut.println("\tReparti Assegnati : ");
+        for (int i = 0; i < listaImpiegati.get(index).getListaReparti().size(); i++) {
+            consoleOut.println("\t\t" + listaImpiegati.get(index).getListaReparti().get(i).getDenominazione());
+        }
     }
 
     public void printProdotto_userOutput(ConsoleOutputManager consoleOut) {
@@ -399,7 +413,13 @@ public class GestioneNegozio implements Serializable {
             consoleOut.println("\tNome Responsabile Reparto : " + reparto.getResponsabileReparto());
         }
     }
-
+    public void printListaRepartiByImpiegato_userOutput(ConsoleOutputManager consoleOut,int indexImpiegato) {
+        consoleOut.println("----------------------------------------------------------");
+        for (Reparto reparto : listaImpiegati.get(indexImpiegato).getListaReparti()) {
+            consoleOut.println("\n\tDenominazione Reparto : " + reparto.getDenominazione());
+            consoleOut.println("\tNome Responsabile Reparto : " + reparto.getResponsabileReparto());
+        }
+    }
     public void printListaProdotti_userOutput(ConsoleOutputManager consoleOut) {
         consoleOut.println("----------------------------------------------------------");
         for (Prodotto prodotto : listaProdotti) {
@@ -428,7 +448,7 @@ public class GestioneNegozio implements Serializable {
                     fileWriter.write("\n\t\t\tCognome Impiegato : " + reparto.getListaImpiegati().get(j).getCognome());
                 }
                 fileWriter.write("\n\t\tProdotti in " + reparto.getDenominazione());
-                for (int j = 0; j < reparto.getListaImpiegati().size(); j++) {
+                for (int j = 0; j < reparto.getListaProdotti().size(); j++) {
                     fileWriter.write("\n\t\t\tCodice Prodotto : " + reparto.getListaProdotti().get(j).getCodice());
                     fileWriter.write("\n\t\t\tDenominativo Prodotto : " + reparto.getListaProdotti().get(j).getDenominazione());
                     fileWriter.write("\n\t\t\tProduttore : " + reparto.getListaProdotti().get(j).getProduttore());
@@ -449,6 +469,10 @@ public class GestioneNegozio implements Serializable {
                 fileWriter.write("\n\n\tCodice Fiscale Impiegato : " + impiegato.getCF());
                 fileWriter.write("\n\tNome Impiegato : " + impiegato.getNome());
                 fileWriter.write("\n\tCognome Impiegato : " + impiegato.getCognome());
+                fileWriter.write("\n\tReparti Assegnati : ");
+                for (int i = 0; i < impiegato.getListaReparti().size(); i++) {
+                    fileWriter.write("\n\t\t" + impiegato.getListaReparti().get(i).getDenominazione());
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -568,4 +592,9 @@ public class GestioneNegozio implements Serializable {
     public void eliminaOrdine(int index) {
         listaOrdini.remove(index);
     }
+
+    public void ordinaImpiegatiByCognome(ArrayList<Impiegato> listaImpiegati) {
+        Collections.sort(listaImpiegati);
+    }
+
 }
